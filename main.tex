@@ -1,0 +1,107 @@
+\documentclass[a4paper, 12pt, oneside]{book}
+
+\usepackage{graphicx}
+\usepackage{geometry}
+\geometry{
+    a4paper,
+    left=20mm,
+    right=20mm,
+    top=20mm,
+    bottom=20mm,
+}
+
+%permet d'appeler le titre, l'autheur et la date de la thèse
+\usepackage{titling} 
+
+\title{Le titre de la thèse d'exercice}
+\author{Nom de l'auteur}
+\date{01/01/2023}
+
+
+% Langue
+\usepackage[cyr]{aeguill}
+% Ce package permet d’afficher et de prendre correctement en charge ces caractères accentués
+\usepackage[T1]{fontenc}
+\usepackage{xspace}
+% Ce package permet d'obtenir des documents en plusieurs langues, en respectant les typographies nationales, en affichant automatiquement les titres
+\usepackage[english,french]{babel}
+% Ce package permet d'avoir les césures
+\usepackage{hyphenat}
+%Permet de metre entre guillemets facilement (utiliser le format : \g{Texte exemple})
+\newcommand{\g}[1]{\og\,#1\,\fg}
+% Ce package permet d'avoir des liens hypertextes dans le document
+\usepackage[hidelinks, breaklinks]{hyperref} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Gestion des acronymes      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{acronym}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Gestion bibliographie      %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[autostyle]{csquotes}
+% 0. Norme ieee
+%\usepackage[backend=biber,style=ieee]{biblatex}
+
+% 1. Norme système Vancouver
+% Tricks pour passer le système Vancouver en Français
+\usepackage[style=vancouver, citestyle=numeric, sorting=none, dateabbrev=false]{biblatex} 
+\DeclareFieldFormat{labelnumberwidth}{\mkbibbrackets{#1}}
+
+\DeclareFieldFormat{date}{#1}
+\DefineBibliographyStrings{french}{
+  urlseen = {cité le},
+  urlfrom = {disponible sur :},
+}
+\DeclareFieldFormat{url}{\bibstring{urlfrom}\addcolon\space\url{#1}}
+\DeclareFieldFormat{urldate}{\bibstring{urlseen}\space#1}
+\renewbibmacro*{url+urldate}{%
+  \usebibmacro{urldate}%
+  \newunit
+  \usebibmacro{url}}
+% Fin style vancouver français
+
+% Déclaration du fichier de la bibliographie (.bib)
+\addbibresource{references/bibliographie.bib}
+
+% Ce package permet de mettre en place des zones encadrées (cf. page de garde)
+\usepackage{mdframed} 
+\newmdenv[
+  skipabove=\topsep,
+  skipbelow=\topsep,
+]{boxed}
+
+
+% Ne pas mettre en place d'indentation dans les nouveaux paragraphes
+\setlength{\parindent}{0pt}
+
+% Code facile pour écrire des lignes en pointillées
+\usepackage{multido}
+\newcommand{\Pointilles}[1]{%
+  \par\nobreak
+  \noindent\rule{0pt}{1.5\baselineskip}
+  \multido{}{#1}{\noindent\makebox[\linewidth]{\dotfill}\endgraf}
+  \bigskip
+}
+
+% La construction du document
+
+\begin{document}
+  \begin{titlingpage}
+      \include{sides/pageGarde.tex}
+      \input{content/resume.tex}
+  \end{titlingpage}
+
+  \include{sides/tableMatières.tex}
+  \include{content/introduction.tex}
+  \include{content/chapitre1.tex}
+  \include{content/chapitre2.tex}
+  \include{content/chapitre3.tex}
+  \include{content/conclusion.tex}
+  \include{content/bibliographie.tex}
+  \include{references/acronymes.tex}
+  \include{sides/tableFiguresEtTables.tex}
+  \include{sides/dernièrePage.tex}
+  \include{sides/dosThèse.tex}
+\end{document}
